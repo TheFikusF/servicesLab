@@ -1,0 +1,106 @@
+<definitions xmlns="http://schemas.xmlsoap.org/wsdl/"
+             xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+             xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+             xmlns:tns="http://localhost:5046/api"
+             targetNamespace="http://localhost:5046/api"
+             name="MyAPI">
+
+  <!-- Types -->
+  <types>
+    <xsd:schema targetNamespace="http://localhost:5046/api">
+      <!-- Input schema -->
+      <xsd:element name="startRequest">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element name="name" type="xsd:string"/>
+            <xsd:element name="x" type="xsd:int"/>
+            <xsd:element name="y" type="xsd:int"/>
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+
+      <xsd:element name="moveRequest">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element name="name" type="xsd:string"/>
+            <xsd:element name="direction" type="tns:Direction"/>
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+
+      <!-- Output schema -->
+      <xsd:element name="startResponse" type="xsd:string"/>
+      <xsd:element name="moveResponse" type="xsd:string"/>
+
+      <!-- Enum for Direction -->
+      <xsd:simpleType name="Direction">
+        <xsd:restriction base="xsd:string">
+          <xsd:enumeration value="Up"/>
+          <xsd:enumeration value="Down"/>
+          <xsd:enumeration value="Left"/>
+          <xsd:enumeration value="Right"/>
+        </xsd:restriction>
+      </xsd:simpleType>
+    </xsd:schema>
+  </types>
+
+  <!-- Messages -->
+  <message name="startRequest">
+    <part name="parameters" element="tns:startRequest"/>
+  </message>
+  <message name="startResponse">
+    <part name="result" element="tns:startResponse"/>
+  </message>
+
+  <message name="moveRequest">
+    <part name="parameters" element="tns:moveRequest"/>
+  </message>
+  <message name="moveResponse">
+    <part name="result" element="tns:moveResponse"/>
+  </message>
+
+  <!-- PortType -->
+  <portType name="GamePortType">
+    <operation name="start">
+      <input message="tns:startRequest"/>
+      <output message="tns:startResponse"/>
+    </operation>
+
+    <operation name="move">
+      <input message="tns:moveRequest"/>
+      <output message="tns:moveResponse"/>
+    </operation>
+  </portType>
+
+  <!-- Binding -->
+  <binding name="GameBinding" type="tns:GamePortType">
+    <soap:binding style="rpc" transport="http://schemas.xmlsoap.org/soap/http"/>
+    
+    <operation name="start">
+      <soap:operation soapAction="start"/>
+      <input>
+        <soap:body use="literal" namespace="http://localhost:5046/api"/>
+      </input>
+      <output>
+        <soap:body use="literal" namespace="http://localhost:5046/api"/>
+      </output>
+    </operation>
+
+    <operation name="move">
+      <soap:operation soapAction="move"/>
+      <input>
+        <soap:body use="literal" namespace="http://localhost:5046/api"/>
+      </input>
+      <output>
+        <soap:body use="literal" namespace="http://localhost:5046/api"/>
+      </output>
+    </operation>
+  </binding>
+
+  <!-- Service -->
+  <service name="GameService">
+    <port name="GamePort" binding="tns:GameBinding">
+      <soap:address location="http://localhost:5046/api"/>
+    </port>
+  </service>
+</definitions>
