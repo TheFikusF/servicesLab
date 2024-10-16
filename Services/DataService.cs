@@ -67,21 +67,6 @@ public class DataService : IDataService
             return FinishMove(ResultType.Finish);
         }
 
-        // Console.WriteLine($"{direction}");
-        // for(int y = position.y == 0 ? 1 : 0; y < (position.y == 9 ? 2 : 3); y++)
-        // {
-        //     for(int x = position.x == 0 ? 1 : 0; x < (position.x == 9 ? 2 : 3); x++)
-        //     {
-        //         Console.Write($"({position.x + x - 1},{position.y + y - 1}), ");
-        //         for(int i = 0; i < 4; i++)
-        //         {
-        //             Console.Write($"{_sessions[name][position.x + x - 1, position.y + y - 1].Walls[i]} ");
-        //         }
-        //         Console.WriteLine();
-        //     }
-        // }
-        // Console.WriteLine();
-
         if(_sessions[name][position.x, position.y].Walls[(int)direction] == false)
         {
             return FinishMove(MoveAction());

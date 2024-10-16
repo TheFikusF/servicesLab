@@ -47,7 +47,7 @@ public class GameController : ControllerBase
         } 
         catch(Exception ex)
         {
-            return Ok(ex.Message);
+            return NotFound(ex.Message);
         }
     }
 }
